@@ -1,24 +1,40 @@
-<div class="card">
-    <div class="card-body">
-        <form [formGroup]="myForm" (ngSubmit)="onSubmit()">
-    <label>Enter Name</label>
-      <input type="text" placeholder="Enter Name" formControlName="name">
-      <br>
-      <label>Enter Age</label>
-      <input type="email" placeholder="Enter email"  formControlName="email">
-      <br>
-      <label>Enter Email</label>
-      <input type="email" placeholder="Enter email"  formControlName="email">
-      <br>
-       <label>
-        <input type="radio" formControlName="userType" value="user" /> user
-      </label>
-      <label>
-        <input type="radio" formControlName="userType" value="admin" /> admin
-      </label>
-<br>
-      <button type="submit">Submit</button>
-    </form>
-    </div>
-</div>
+<!DOCTYPE html>
+<html>
 
+<body>
+	<div class="main">
+		<input type="checkbox" id="chk" aria-hidden="true">
+
+		<div class="signup">
+			<form>
+				<label for="chk" aria-hidden="true">Sign up</label>
+				<input type="text" name="txt" placeholder="User name" required="" [(ngModel)]="signUpObj.name">
+				<input type="email" name="email" placeholder="Email" required="" [(ngModel)]="signUpObj.email">
+				<input type="text" name="userType" placeholder="userType" required="" [(ngModel)]="signUpObj.userType"
+					#myInput="ngModel" pattern="^(user|admin)$" required>
+				<div *ngIf="myInput.invalid && (myInput.dirty || myInput.touched)">
+					<i *ngIf="myInput.errors?.['required']" style="color: red;">
+						This field is required.
+					</i>
+					<i *ngIf="myInput.errors?.['pattern']" style="color: red;">
+						Please enter only 'user' or 'admin'.
+					</i>
+				</div>
+
+				<input type="password" name="pswd" placeholder="Password" required="" [(ngModel)]="signUpObj.password">
+				<button *ngIf="signUpObj.userType != '' &&signUpObj.name != '' && signUpObj.email != '' && signUpObj.password != '' " (click)="onSignUp()">Sign up</button>
+			</form>
+		</div>
+
+		<div class="login">
+			<form>
+				<label for="chk" aria-hidden="true">Login</label>
+				<input type="text" name="txt" placeholder="User name" required="" [(ngModel)]="loginObj.name">
+				<input type="password" name="pswd" placeholder="Password" required="" [(ngModel)]="loginObj.password">
+				<button (click)="onLogin()">Login</button>
+			</form>
+		</div>
+	</div>
+</body>
+
+</html>

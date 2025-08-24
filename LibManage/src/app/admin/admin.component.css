@@ -1,0 +1,24 @@
+.admin-container {
+  padding: 20px;
+}
+
+.section {
+  margin-top: 20px;
+}
+
+.status {
+  margin-left: 10px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-size: 12px;
+}
+
+.status.available {
+  background-color: #2e7d32; /* green */
+  color: #fff;
+}
+
+.status.borrowed {
+  background-color: #c62828; /* red */
+  color: #fff;
+}
