@@ -14,7 +14,7 @@ import { Router } from '@angular/router';
 })
 export class AdminComponent implements OnInit {
   books: Book[] = [];
-  users: User[] = [];
+  users !:any;
   transactions: Transaction[] = [];
 
   newBook: Partial<Book> = {};
@@ -30,7 +30,8 @@ export class AdminComponent implements OnInit {
 
   loadData() {
     this.books = JSON.parse(localStorage.getItem('books') || '[]');
-    this.users = JSON.parse(localStorage.getItem('users') || '[]');
+    this.users = JSON.parse(localStorage.getItem('userList') || '[]');
+    console.log(this.users)
     this.transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
   }
 

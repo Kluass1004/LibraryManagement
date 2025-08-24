@@ -15,25 +15,21 @@ export class UsersComponent {
  books: Book[] = [];
   transactions: Transaction[] = [];
   currentUser!: User;
-
-  borrowLimit = 3; // Example limit
+loginId:any
+  borrowLimit = 3; 
    router=inject(Router)
   ngOnInit() {
+    let id=localStorage.getItem("LoginUserDetails")
+    this.loginId=JSON.parse(id??'')
+    console.log(this.loginId.name)
     this.books = JSON.parse(localStorage.getItem('books') || '[]');
     this.transactions = JSON.parse(localStorage.getItem('transactions') || '[]');
-
-    // Example: assuming logged in user id = 1
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    this.currentUser = users.find((u: User) => u.id === 1) || { id: 1, name: 'Test User', role: 'user', borrowedBooks: [] };
-    if (!users.find((u: User) => u.id === 1)) {
-      users.push(this.currentUser);
-      localStorage.setItem('users', JSON.stringify(users));
-    }
+    this.currentUser=this.loginId
   }
 
   saveData(users: User[]) {
     localStorage.setItem('books', JSON.stringify(this.books));
-    localStorage.setItem('users', JSON.stringify(users));
+    localStorage.setItem('userList', JSON.stringify(users));
     localStorage.setItem('transactions', JSON.stringify(this.transactions));
   }
 
@@ -43,15 +39,24 @@ export class UsersComponent {
     this.currentUser.borrowedBooks.push(book.id);
 
     this.transactions.push({
-      userId: this.currentUser.id,
+      userId: this.currentUser.name,
       bookId: book.id,
       action: 'borrowed',
       date: new Date().toISOString()
     });
 
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const idx = users.findIndex((u: User) => u.id === this.currentUser.id);
-    users[idx] = this.currentUser;
+    const users = JSON.parse(localStorage.getItem('userList') || '[]');
+   
+ for (let i = 0; i < users.length; i++) {
+  if (users[i].name === this.currentUser.name) {
+    users[i].borrowedBooks =  this.currentUser.borrowedBooks;
+    
+    break;
+  }
+}
+
+console.log("USER",users)
+
     this.saveData(users);
   }
 
@@ -60,15 +65,20 @@ export class UsersComponent {
     this.currentUser.borrowedBooks = this.currentUser.borrowedBooks.filter(id => id !== book.id);
 
     this.transactions.push({
-      userId: this.currentUser.id,
+      userId: this.currentUser.name,
       bookId: book.id,
       action: 'returned',
       date: new Date().toISOString()
     });
 
-    const users = JSON.parse(localStorage.getItem('users') || '[]');
-    const idx = users.findIndex((u: User) => u.id === this.currentUser.id);
-    users[idx] = this.currentUser;
+    const users = JSON.parse(localStorage.getItem('userList') || '[]');
+     for (let i = 0; i < users.length; i++) {
+  if (users[i].name === this.currentUser.name) {
+    users[i].borrowedBooks =  this.currentUser.borrowedBooks;
+    
+    break;
+  }
+}
     this.saveData(users);
   }
   logout(){

@@ -29,10 +29,10 @@
 
  <div class="section">
   <h3>All Users</h3>
-  <ul>
-    <li *ngFor="let user of users">
-      {{ user.name }} - Role: {{ user.role }} - Borrowed: {{ user.borrowedBooks.length }}
-    </li>
+  <ul *ngFor="let user of users">
+    <li *ngIf="user.userType == 'user'">
+        {{ user.name }} - Role: {{ user.userType }} - Borrowed: {{ user.borrowedBooks.length }}
+          </li>
   </ul>
 </div>
 
@@ -40,7 +40,7 @@
   <h3>Transactions</h3>
   <ul>
     <li *ngFor="let txn of transactions">
-      User {{ txn.userId }} {{ txn.action }} book {{ txn.bookId }} on {{ txn.date }}
+      <b> {{ txn.userId }} </b> {{ txn.action }} bookID- <u>{{ txn.bookId }}</u> on {{ txn.date | date: 'dd/MM/yyyy'}}
     </li>
   </ul>
 </div>

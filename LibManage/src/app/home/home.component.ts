@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { Router } from '@angular/router';
+import { User } from '../user.model';
 @Component({
   selector: 'app-home',
   imports: [ReactiveFormsModule,FormsModule,CommonModule],
@@ -9,13 +10,15 @@ import { Router } from '@angular/router';
   styleUrl: './home.component.css'
 })
 export class HomeComponent implements OnInit{
+users: User[] = [];
  signUpUsers:any=[];
  isLoggedIn:boolean=true;
  signUpObj:any={
   name:'',
   email:'',
   userType:'',
-  password:''
+  password:'',
+  borrowedBooks:[]
  }
  loginObj:any={
     name:'',
@@ -38,6 +41,13 @@ else{
   userArr.push(this.signUpObj)
   localStorage.setItem('userList',JSON.stringify(userArr))
 }
+this.signUpObj={
+  name:'',
+  email:'',
+  userType:'',
+  password:'',
+  borrowedBooks:[]
+ }
 alert("SignUp Successfull")
 }
 onLogin(){

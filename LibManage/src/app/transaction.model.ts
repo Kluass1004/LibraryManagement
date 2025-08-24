@@ -1,5 +1,5 @@
 export interface Transaction {
-  userId: number;
+  userId: String;
   bookId: number;
   action: 'borrowed' | 'returned';
   date: string;
